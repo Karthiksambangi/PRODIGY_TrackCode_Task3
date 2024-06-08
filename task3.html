@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe</title>
+  <style>
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #e79ed9; /* Background color similar to HackerRank */
+}
+
+.board {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  background-color: #fff; /* White background */
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.cell {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  cursor: pointer;
+  background-color: #f5f7f9; /* Light background color */
+  color: #343434; /* Dark text color */
+}
+
+.cell:hover {
+  background-color: #e3e6e9; /* Lighter background color on hover */
+}
+
+/* HackerRank mode */
+.hackerrank .board {
+  background-color: #222; /* Dark background color */
+}
+
+.hackerrank .cell {
+  background-color: #333; /* Darker cell background color */
+  border: 1px solid #444; /* Darker border */
+  color: #fff; /* White text color */
+}
+
+.hackerrank .cell:hover {
+  background-color: #444; /* Darker background color on hover */
+}
+</style>
+</head>
+<body>
+  <div id="board" class="board">
+    
+    <div class="cell" onclick="handleClick(0)"></div>
+    <div class="cell" onclick="handleClick(1)"></div>
+    <div class="cell" onclick="handleClick(2)"></div>
+    <div class="cell" onclick="handleClick(3)"></div>
+    <div class="cell" onclick="handleClick(4)"></div>
+    <div class="cell" onclick="handleClick(5)"></div>
+    <div class="cell" onclick="handleClick(6)"></div>
+    <div class="cell" onclick="handleClick(7)"></div>
+    <div class="cell" onclick="handleClick(8)"></div>
+  </div>
+  <script>
+let currentPlayer = 'X';
+let board = ['', '', '', '', '', '', '', '', ''];
+
+function handleClick(index) {
+  if (board[index] === '') {
+    board[index] = currentPlayer;
+    document.getElementById('board').children[index].innerText = currentPlayer;
+    if (checkWin()) {
+      alert(`${currentPlayer} wins!`);
+      resetGame();
+    } else if (board.every(cell => cell !== '')) {
+      alert('It\'s a draw!');
+      resetGame();
+    } else {
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+  }
+}
+
+function checkWin() {
+  const winConditions = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6]
+  ];
+
+  return winConditions.some(condition => {
+    const [a, b, c] = condition;
+    return board[a] && board[a] === board[b] && board[a] === board[c];
+  });
+}
+
+function resetGame() {
+  currentPlayer = 'X';
+  board = ['', '', '', '', '', '', '', '', ''];
+  document.querySelectorAll('.cell').forEach(cell => cell.innerText = '');
+}
+
+</script>
+</body>
+</html>
